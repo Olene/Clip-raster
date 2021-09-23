@@ -1,0 +1,13 @@
+# Clip reaster by mask from shapefile
+library(raster)
+library(rgdal)
+
+UA <- readOGR("UaBorder.shp", layer="UaBorder")
+Ace <- raster("acer neg.gri")
+AceMas <- mask(x=Ace, mask = UA)
+plot(AceMas)
+writeRaster(AceMas, filename = "Acernew.gri")
+
+# Calculate raster
+aggregate(getValues(area(AceMas, weights=FALSE)), by=list(getValues(AceMas)), sum)
+
